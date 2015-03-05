@@ -11,7 +11,6 @@ function ssl(){
     openssl req -new -x509 -key ./certs/${1}.key -out ./certs/${1}.crt -days 3650 -subj /CN=${1}
 }
 
-ssl ${REG_ADDRESS}
 ssl ${REG_ADDRESS2}
 
 docker stop nginx-proxy 2>/dev/null | echo Proxy stopped.
