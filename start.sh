@@ -2,11 +2,17 @@
 
 set -e
 
-openssl genrsa -out ./certs/boot2docker.key 2048
-openssl req -new -x509 -key ./certs/boot2docker.key -out ./certs/boot2docker.crt -days 3650 -subj /CN=boot2docker
+: ${REG_ADDRESS:=regrancher.jamescarlharris.com}
+: ${REG_ADDRESS2:=registry.rancherlabs.com}
 
-openssl genrsa -out ./certs/hi.boot2docker.key 2048
-openssl req -new -x509 -key ./certs/hi.boot2docker.key -out ./certs/hi.boot2docker.crt -days 3650 -subj /CN=boot2docker
+function ssl(){
+    [[ ! -d ./certs/ ]] && mkdir ./certs/
+    openssl genrsa -out ./certs/${1}.key 2048
+    openssl req -new -x509 -key ./certs/${1}.key -out ./certs/${1}.crt -days 3650 -subj /CN=${1}
+}
+
+ssl ${REG_ADDRESS}
+ssl ${REG_ADDRESS2}
 
 docker stop nginx-proxy 2>/dev/null | echo Proxy stopped.
 docker rm -fv nginx-proxy 2>/dev/null | echo Proxy removed.
@@ -20,4 +26,4 @@ docker run -d -p 80:80 \
 docker build -t rancher-test-registry .
 docker stop rancher-registry 2>/dev/null | echo Registry stopped.
 docker rm -f rancher-registry 2>/dev/null | echo Registry removed.
-docker run -d --name=rancher-registry -e VIRTUAL_HOST=boot2docker rancher-test-registry
+docker run -d --name=rancher-registry -e VIRTUAL_HOST=${REG_ADDRESS},${REG_ADDRESS2} rancher-test-registry
