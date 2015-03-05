@@ -32,9 +32,12 @@ docker run -d -p 2000:5000 --name=${BASE} registry
 
 
 docker build -t localhost:2000/scratch -f scratch.dockerfile .
+sleep 2
 docker push localhost:2000/scratch
 docker build -t localhost:2000/echo .
+sleep 2
 docker push localhost:2000/echo
+sleep 5
 docker stop ${BASE}
 docker commit ${BASE} rancher/registry
 docker rm -f ${BASE}
