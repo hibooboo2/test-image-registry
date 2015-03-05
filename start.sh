@@ -42,12 +42,6 @@ docker stop ${BASE}
 docker commit ${BASE} rancher/registry
 docker rm -f ${BASE}
 
-TEST="test-rancher-registry"
-killAndRemove ${TEST}
-docker run -d -p 3000:5000 \
---name=${TEST} \
-rancher/registry
-
 RANCHER="rancher-registry"
 killAndRemove ${RANCHER}
-docker run -d --name=${RANCHER} -e VIRTUAL_HOST=${REG_ADDRESS},${REG_ADDRESS2} registry
+docker run -d --name=${RANCHER} -e VIRTUAL_HOST=${REG_ADDRESS},${REG_ADDRESS2} rancher/registry
