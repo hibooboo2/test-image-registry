@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 : ${REG_ADDRESS:=regrancher.jamescarlharris.com}
 : ${REG_ADDRESS2:=registry.rancherlabs.com}
