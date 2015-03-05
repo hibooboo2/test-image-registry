@@ -22,9 +22,18 @@ docker run -d -p 80:80 \
  --name=nginx-proxy \
  jwilder/nginx-proxy
 
+docker run -d -p 2000:5000 --name=base-registry registry
 
-docker build -t rancher-test-registry .
 
+docker build -t localhost:2000/scratch -f scratch.dockerfile
+docker push localhost:2000/scratch
+docker stop base-registry
+
+docker commit base-registry rancher/registry
+
+docker run -d -p 3000:5000 \
+--name=rancher-test-registry \
+rancher/registry
 
 docker stop rancher-registry 2>/dev/null | echo Registry stopped.
 docker rm -f rancher-registry 2>/dev/null | echo Registry removed.
