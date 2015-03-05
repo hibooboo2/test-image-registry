@@ -42,7 +42,7 @@ PUSHTO="localhost:2000"
 buildAndPush Loopfile ${PUSHTO}/rancher/loop
 buildAndPush Dockerfile ${PUSHTO}/echo
 buildAndPush scratch.dockerfile ${PUSHTO}/echo:scratch
-buildAndPush scratch.dockerfile ${BASE}/rancher/loop:scratch
+buildAndPush scratch.dockerfile ${PUSHTO}/rancher/loop:scratch
 
 docker stop ${BASE}
 docker commit ${BASE} rancher/registry
