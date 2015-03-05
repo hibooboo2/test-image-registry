@@ -22,7 +22,10 @@ docker run -d -p 80:80 \
  --name=nginx-proxy \
  jwilder/nginx-proxy
 
+
 docker build -t rancher-test-registry .
+
+
 docker stop rancher-registry 2>/dev/null | echo Registry stopped.
 docker rm -f rancher-registry 2>/dev/null | echo Registry removed.
-docker run -d --name=rancher-registry -e VIRTUAL_HOST=${REG_ADDRESS},${REG_ADDRESS2} rancher-test-registry
+docker run -d --name=rancher-registry -e VIRTUAL_HOST=${REG_ADDRESS},${REG_ADDRESS2} registry
