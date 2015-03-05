@@ -31,7 +31,7 @@ killAndRemove ${BASE}
 docker run -d -p 2000:5000 --name=${BASE} registry
 
 
-docker build -t localhost:2000/scratch -f scratch.dockerfile
+docker build -t localhost:2000/scratch -f scratch.dockerfile .
 docker push localhost:2000/scratch
 docker stop ${BASE}
 docker commit ${BASE} rancher/registry
