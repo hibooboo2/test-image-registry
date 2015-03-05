@@ -1,1 +1,2 @@
-FROM registry
+FROM busybox
+CMD echo hello
