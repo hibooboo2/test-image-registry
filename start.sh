@@ -11,30 +11,38 @@ function ssl(){
     openssl req -new -x509 -key ./certs/${1}.key -out ./certs/${1}.crt -days 3650 -subj /CN=${1}
 }
 
+function killAndRemove(){
+    docker stop ${1} 2>/dev/null | echo ${1} stopped.
+    docker rm -fv ${1} 2>/dev/null | echo ${1} removed.
+}
 ssl ${REG_ADDRESS2}
 
-docker stop nginx-proxy 2>/dev/null | echo Proxy stopped.
-docker rm -fv nginx-proxy 2>/dev/null | echo Proxy removed.
+REV_PROXY="nginx-proxy"
+killAndRemove ${REV_PROXY}
 docker run -d -p 80:80 \
  -p 443:443 \
  -v $(pwd)/certs:/etc/nginx/certs:ro \
  -v /var/run/docker.sock:/tmp/docker.sock \
- --name=nginx-proxy \
+ --name=${REV_PROXY} \
  jwilder/nginx-proxy
 
-docker run -d -p 2000:5000 --name=base-registry registry
+BASE="base-registry"
+killAndRemove ${BASE}
+docker run -d -p 2000:5000 --name=${BASE} registry
 
 
 docker build -t localhost:2000/scratch -f scratch.dockerfile
 docker push localhost:2000/scratch
-docker stop base-registry
+docker stop ${BASE}
+docker commit ${BASE} rancher/registry
+docker rm -f ${BASE}
 
-docker commit base-registry rancher/registry
-
+TEST="test-rancher-registry"
+killAndRemove ${TEST}
 docker run -d -p 3000:5000 \
---name=rancher-test-registry \
+--name=${TEST} \
 rancher/registry
 
-docker stop rancher-registry 2>/dev/null | echo Registry stopped.
-docker rm -f rancher-registry 2>/dev/null | echo Registry removed.
-docker run -d --name=rancher-registry -e VIRTUAL_HOST=${REG_ADDRESS},${REG_ADDRESS2} registry
+RANCHER="rancher-registry"
+killAndRemove ${RANCHER}
+docker run -d --name=${RANCHER} -e VIRTUAL_HOST=${REG_ADDRESS},${REG_ADDRESS2} registry
