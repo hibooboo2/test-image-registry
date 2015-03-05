@@ -15,6 +15,14 @@ function killAndRemove(){
     docker stop ${1} 2>/dev/null | echo ${1} stopped.
     docker rm -fv ${1} 2>/dev/null | echo ${1} removed.
 }
+
+function buildAndPush(){
+    docker build -t ${2} -f ${1} .
+    sleep 1
+    docker push ${2}
+    sleep 1
+}
+
 ssl ${REG_ADDRESS2}
 
 REV_PROXY="nginx-proxy"
@@ -30,14 +38,12 @@ BASE="base-registry"
 killAndRemove ${BASE}
 docker run -d -p 2000:5000 --name=${BASE} registry
 
+PUSHTO="localhost:2000"
+buildAndPush Loopfile ${PUSHTO}/rancher/loop
+buildAndPush Dockerfile ${PUSHTO}/echo
+buildAndPush scratch.dockerfile ${PUSHTO}/echo:scratch
+buildAndPush scratch.dockerfile ${BASE}/rancher/loop:scratch
 
-docker build -t localhost:2000/scratch -f scratch.dockerfile .
-sleep 2
-docker push localhost:2000/scratch
-docker build -t localhost:2000/echo .
-sleep 2
-docker push localhost:2000/echo
-sleep 5
 docker stop ${BASE}
 docker commit ${BASE} rancher/registry
 docker rm -f ${BASE}
