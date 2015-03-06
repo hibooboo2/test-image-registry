@@ -18,9 +18,7 @@ function killAndRemove(){
 
 function buildAndPush(){
     docker build -t ${2} -f ${1} .
-    sleep 1
     docker push ${2}
-    sleep 1
 }
 
 #ssl ${REG_ADDRESS2}
@@ -53,7 +51,6 @@ docker rm -f ${BASE}
 RANCHER="rancher-registry"
 killAndRemove ${RANCHER}
 docker run -d --name=${RANCHER} -p 2000:5000 rancher/test-registry
-sleep 10
 docker push ${PUSHTO}/rancher/test-registry
 
 docker stop ${RANCHER}
