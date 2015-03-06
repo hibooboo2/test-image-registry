@@ -23,15 +23,6 @@ function buildAndPush(){
 
 #ssl ${REG_ADDRESS2}
 
-REV_PROXY="nginx-proxy"
-killAndRemove ${REV_PROXY}
-docker run -d -p 80:80 \
- -p 443:443 \
- -v $(pwd)/certs:/etc/nginx/certs:ro \
- -v /var/run/docker.sock:/tmp/docker.sock \
- --name=${REV_PROXY} \
- jwilder/nginx-proxy
-
 BASE="base-registry"
 killAndRemove ${BASE}
 docker run -d -p 2000:5000 --name=${BASE} registry
@@ -58,3 +49,12 @@ docker commit ${RANCHER} ${REG_ADDRESS2}/rancher/test-registry
 
 killAndRemove ${RANCHER}
 docker run -d --name=${RANCHER} -e VIRTUAL_HOST=${REG_ADDRESS},${REG_ADDRESS2} ${REG_ADDRESS2}/rancher/test-registry
+
+
+REV_PROXY="nginx-proxy"
+killAndRemove ${REV_PROXY}
+docker run -d -p 80:80 \
+ -p 443:443 \
+ -v $(pwd)/certs:/etc/nginx/certs:ro \
+ --name=${REV_PROXY} \
+ nginx
