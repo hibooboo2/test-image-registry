@@ -6,6 +6,12 @@ function ssl(){
     openssl req -new -x509 -key ./certs/${1}.key -out ./certs/${1}.crt -days 3650 -subj /CN=${1}
 }
 
+function killAndRemove(){
+    docker stop ${1} 2>/dev/null | echo ${1} stopped.
+    docker rm -fv ${1} 2>/dev/null | echo ${1} removed.
+}
+
+
 #ssl ${REG_ADDRESS2}
 
 REV_PROXY="nginx-proxy"
