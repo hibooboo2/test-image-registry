@@ -23,7 +23,7 @@ function buildAndPush(){
     sleep 1
 }
 
-ssl ${REG_ADDRESS2}
+//ssl ${REG_ADDRESS2}
 
 REV_PROXY="nginx-proxy"
 killAndRemove ${REV_PROXY}
