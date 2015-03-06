@@ -16,4 +16,4 @@ docker run -d -p 80:80 \
  -v ${HOME}/sandbox/docker-registry.htpasswd:/auth/docker-registry.htpasswd
  --name=${REV_PROXY} \
  nginx
-
+ 
