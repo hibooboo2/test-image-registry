@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -e
+
+cd $(dirname $0)
+
 function ssl(){
     [[ ! -d ./certs/ ]] && mkdir ./certs/
     openssl genrsa -out ./certs/${1}.key 2048
@@ -10,16 +14,19 @@ function killAndRemove(){
     docker stop ${1} 2>/dev/null | echo ${1} stopped.
     docker rm -fv ${1} 2>/dev/null | echo ${1} removed.
 }
-
-
 #ssl ${REG_ADDRESS2}
 
+
 REV_PROXY="nginx-proxy"
+CONF=./nginx.conf
+PROXY=./docker-registry.conf
 killAndRemove ${REV_PROXY}
 docker run -d -p 80:80 \
  -p 443:443 \
- -v $(pwd)/certs:/etc/nginx/certs:ro \
+ -v /certs:/etc/nginx/certs:ro \
  -v ${HOME}/sandbox/docker-registry.htpasswd:/auth/docker-registry.htpasswd \
+ -v ${CONF}:/etc/nginx/nginx.conf \
+ -v ${PROXY}:/etc/nginx/docker-registry.conf \
  --name=${REV_PROXY} \
  nginx
  
