@@ -18,8 +18,8 @@ function killAndRemove(){
 
 
 REV_PROXY="nginx-proxy"
-CONF=./nginx.conf
-PROXY=./docker-registry.conf
+CONF=$(pwd)/nginx.conf
+PROXY=$(pwd)/docker-registry.conf
 killAndRemove ${REV_PROXY}
 docker run -d -p 80:80 \
  -p 443:443 \
