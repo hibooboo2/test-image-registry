@@ -45,9 +45,19 @@ buildAndPush scratch.dockerfile ${PUSHTO}/echo:scratch
 buildAndPush scratch.dockerfile ${PUSHTO}/rancher/loop:scratch
 
 docker stop ${BASE}
-docker commit ${BASE} rancher/registry
+docker commit ${BASE} rancher/test-registry
+docker commit ${BASE} ${REG_ADDRESS2}/rancher/test-registry
 docker rm -f ${BASE}
+
 
 RANCHER="rancher-registry"
 killAndRemove ${RANCHER}
-docker run -d --name=${RANCHER} -e VIRTUAL_HOST=${REG_ADDRESS},${REG_ADDRESS2} rancher/registry
+docker run -d --name=${RANCHER} -e VIRTUAL_HOST=${REG_ADDRESS},${REG_ADDRESS2} rancher/test-registry
+
+docker push ${REG_ADDRESS2}/rancher/test-registry
+
+docker stop ${RANCHER}
+docker commit ${RANCHER} ${REG_ADDRESS2}/rancher/test-registry
+
+killAndRemove ${RANCHER}
+docker run -d --name=${RANCHER} -e VIRTUAL_HOST=${REG_ADDRESS},${REG_ADDRESS2} ${REG_ADDRESS2}/rancher/test-registry
