@@ -27,6 +27,7 @@ docker run -d -p 80:80 \
  -v ${HOME}/sandbox/docker-registry.htpasswd:/auth/docker-registry.htpasswd \
  -v ${CONF}:/etc/nginx/nginx.conf \
  -v ${PROXY}:/etc/nginx/docker-registry.conf \
+ --link rancher-registry:registry \
  --name=${REV_PROXY} \
  nginx
  

@@ -2,6 +2,7 @@
 
 set -e
 
+docker rm -fv rancher-registry
 docker run -d --name=rancher-registry rancher/test-registry
 
 exit 0
