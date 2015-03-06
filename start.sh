@@ -2,8 +2,8 @@
 
 set -ex
 
-: ${REG_ADDRESS:=regrancher.jamescarlharris.com}
-: ${REG_ADDRESS2:=registry.rancher.io}
+: ${REG_ADDRESS:=example.com}
+: ${REG_ADDRESS2:=example.io}
 
 function ssl(){
     [[ ! -d ./certs/ ]] && mkdir ./certs/
