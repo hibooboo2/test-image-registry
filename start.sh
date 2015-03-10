@@ -26,7 +26,7 @@ killAndRemove ${REV_PROXY}
 docker run -it -p 80:80 \
  -p 443:443 \
  -v ${CERTS}:/etc/nginx/certs:ro \
- -v ${pwd}/docker-registry.htpasswd:/auth/docker-registry.htpasswd \
+ -v ${pwd}/docker-registry.htpasswd:/etc/nginx/docker-registry.htpasswd \
  -v ${CONF}:/etc/nginx/nginx.conf \
  -v ${PROXY}:/etc/nginx/docker-registry.conf \
  --link rancher-registry:registry \
