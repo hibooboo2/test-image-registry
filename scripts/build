@@ -24,6 +24,7 @@ killAndRemove ${BASE}
 docker run -d -p 2000:5000 --name=${BASE} registry
 
 PUSHTO="localhost:2000"
+sleep 2
 buildAndPush Loopfile ${PUSHTO}/rancher/loop
 buildAndPush Dockerfile ${PUSHTO}/echo
 buildAndPush scratch.dockerfile ${PUSHTO}/echo:scratch
@@ -38,6 +39,7 @@ docker rm -f ${BASE}
 RANCHER="rancher-registry"
 killAndRemove ${RANCHER}
 docker run -d --name=${RANCHER} -p 2000:5000 rancher/test-registry
+sleep 2
 docker push ${PUSHTO}/rancher/test-registry
 
 docker stop ${RANCHER}
