@@ -18,6 +18,7 @@ function killAndRemove(){
 
 
 
+
 REV_PROXY="nginx-proxy"
 CONF=$(pwd)/nginx.conf
 PROXY=$(pwd)/docker-registry.conf
@@ -25,6 +26,16 @@ CERTS=$(pwd)/certs
 PASSWORDS=$(pwd)/.htpasswd
 CURRNETDIR=$(pwd)/
 echo ${CURRNETDIR}
+
+cd ./login
+docker build -t nodeauth .
+cd ..
+AUTH="nginx-node-auth"
+
+killAndRemove ${AUTH}
+docker run -d -v ${PASSWORDS}:${PASSWORDS} -p 8080:8080 --name=${AUTH} nodeauth
+
+
 killAndRemove ${REV_PROXY}
 docker run -d -p 80:80 \
  -p 443:443 \
@@ -34,6 +45,7 @@ docker run -d -p 80:80 \
  -v ${CONF}:/etc/nginx/nginx.conf \
  -v ${PROXY}:/etc/nginx/docker-registry.conf \
  --link rancher-registry:registry \
+ --link ${AUTH}:node \
  --name=${REV_PROXY} \
  nginx
 
