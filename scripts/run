@@ -5,9 +5,12 @@ set -e
 
 cd $(dirname $0)/..
 
-./scripts/build
+function killAndRemove(){
+    docker stop ${1} 2>/dev/null | echo ${1} stopped.
+    docker rm -fv ${1} 2>/dev/null | echo ${1} removed.
+}
 
-docker rm -fv rancher-registry
+killAndRemove rancher-registry
 docker run -d --name=rancher-registry rancher/test-registry
 
 exit 0
