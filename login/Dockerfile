@@ -1,5 +1,7 @@
 FROM node:0.12.0-slim
-add ./auth.js /src/auth.js
+add ./ /src/
+
+RUN cd /src/ && npm install
 
 EXPOSE 8080
 
