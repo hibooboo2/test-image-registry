@@ -37,8 +37,9 @@ docker rm -f ${BASE}
 
 
 RANCHER="rancher-registry"
+PUSHTO="localhost:3000"
 killAndRemove ${RANCHER}
-docker run -d --name=${RANCHER} -p 2000:5000 rancher/test-registry
+docker run -d --name=${RANCHER} -p 3000:5000 rancher/test-registry
 sleep 2
 docker push ${PUSHTO}/rancher/test-registry
 
