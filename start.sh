@@ -31,6 +31,6 @@ docker run -it -p 80:80 \
  -v ${PROXY}:/etc/nginx/docker-registry.conf \
  --link rancher-registry:registry \
  --name=${REV_PROXY} \
- nginx /bin/bash
+ nginx
  
- #docker exec -it nginx /bin/bash
+ docker exec -it ${REV_PROXY} /bin/bash
