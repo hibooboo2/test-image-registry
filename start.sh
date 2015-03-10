@@ -31,7 +31,7 @@ cd ./login
 docker build -t nodeauth .
 AUTH="nginx-node-auth"
 killAndRemove ${AUTH}
-docker run -d -v ${PASSWORDS}:/src/.htpasswd -v $(PWD)/node_modules:/src/node_modules --name=${AUTH} nodeauth
+docker run -d -v ${PASSWORDS}:/src/.htpasswd --name=${AUTH} nodeauth
 cd ..
 
 
