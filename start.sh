@@ -23,7 +23,7 @@ CONF=$(pwd)/nginx.conf
 PROXY=$(pwd)/docker-registry.conf
 CERTS=$(pwd)/certs
 killAndRemove ${REV_PROXY}
-docker run -d -p 80:80 \
+docker run -it -p 80:80 \
  -p 443:443 \
  -v ${CERTS}:/etc/nginx/certs:ro \
  -v ${pwd}/docker-registry.htpasswd:/auth/docker-registry.htpasswd \
@@ -31,6 +31,6 @@ docker run -d -p 80:80 \
  -v ${PROXY}:/etc/nginx/docker-registry.conf \
  --link rancher-registry:registry \
  --name=${REV_PROXY} \
- nginx
+ nginx /bin/bash
  
- docker exec -it ${REV_PROXY} /bin/bash
+# docker exec -it ${REV_PROXY} /bin/bash
