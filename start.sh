@@ -28,7 +28,7 @@ echo ${CURRNETDIR}
 killAndRemove ${REV_PROXY}
 docker run -d -p 80:80 \
  -p 443:443 \
- -v ${CURRNETDIR}:/src/ \
+ -v ${CURRNETDIR}:/src \
  -v ${CERTS}:/etc/nginx/certs:ro \
  -v ${PASSWORDS}:/etc/nginx/.htpasswd \
  -v ${CONF}:/etc/nginx/nginx.conf \
