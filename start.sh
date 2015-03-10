@@ -33,7 +33,7 @@ cd ..
 AUTH="nginx-node-auth"
 
 killAndRemove ${AUTH}
-docker run -d -v ${PASSWORDS}:/src/.htpasswd -p 8080:8080 --name=${AUTH} nodeauth
+docker run -d -v ${PASSWORDS}:/src/.htpasswd --name=${AUTH} nodeauth
 
 
 killAndRemove ${REV_PROXY}
