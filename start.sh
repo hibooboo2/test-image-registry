@@ -11,8 +11,8 @@ function ssl(){
 }
 
 function killAndRemove(){
-    docker stop ${1} | echo ${1} stopped. From Docker:
-    docker rm -fv ${1} | echo ${1} removed. From Docker:
+    docker stop ${1} | echo ${1} stopped.
+    docker rm -fv ${1} | echo ${1} removed.
 }
 #ssl ${REG_ADDRESS2}
 
@@ -35,5 +35,4 @@ docker run -d -p 80:80 \
  --link rancher-registry:registry \
  --name=${REV_PROXY} \
  nginx
- 
-docker exec -it ${REV_PROXY} /bin/bash
+
