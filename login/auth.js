@@ -30,6 +30,10 @@ function signup(user){
             if(!err){
                 console.log("Added user" + user);
             }
+            else{
+                console.log(err)
+                
+            }
         })
     }
 }
