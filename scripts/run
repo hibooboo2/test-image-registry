@@ -2,6 +2,11 @@
 
 set -e
 
+
+cd $(dirname $0)/..
+
+./scripts/build
+
 docker rm -fv rancher-registry
 docker run -d --name=rancher-registry rancher/test-registry
 

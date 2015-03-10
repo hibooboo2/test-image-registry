@@ -2,6 +2,8 @@
 
 set -e
 
+cd $(dirname $0)/..
+
 : ${REG_ADDRESS:=example.com}
 : ${REG_ADDRESS2:=example.io}
 
@@ -14,6 +16,7 @@ function buildAndPush(){
     docker build -t ${2} -f ${1} .
     docker push ${2}
 }
+
 
 
 BASE="base-registry"
