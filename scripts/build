@@ -31,13 +31,13 @@ buildAndPush scratch.dockerfile ${PUSHTO}/echo:scratch
 buildAndPush scratch.dockerfile ${PUSHTO}/rancher/loop:scratch
 
 docker stop ${BASE}
+PUSHTO="localhost:3000"
 docker commit ${BASE} rancher/test-registry
 docker commit ${BASE} ${PUSHTO}/rancher/test-registry
 docker rm -f ${BASE}
 
 
 RANCHER="rancher-registry"
-PUSHTO="localhost:3000"
 killAndRemove ${RANCHER}
 docker run -d --name=${RANCHER} -p 3000:5000 rancher/test-registry
 sleep 2
