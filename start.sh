@@ -17,6 +17,7 @@ function killAndRemove(){
 #ssl ${REG_ADDRESS2}
 
 
+
 REV_PROXY="nginx-proxy"
 CONF=$(pwd)/nginx.conf
 PROXY=$(pwd)/docker-registry.conf
@@ -25,7 +26,7 @@ killAndRemove ${REV_PROXY}
 docker run -it -p 80:80 \
  -p 443:443 \
  -v ${CERTS}:/etc/nginx/certs:ro \
- -v ${HOME}/sandbox/docker-registry.htpasswd:/auth/docker-registry.htpasswd \
+ -v ${pwd}/docker-registry.htpasswd:/auth/docker-registry.htpasswd \
  -v ${CONF}:/etc/nginx/nginx.conf \
  -v ${PROXY}:/etc/nginx/docker-registry.conf \
  --link rancher-registry:registry \
