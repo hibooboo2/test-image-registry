@@ -23,7 +23,7 @@ CONF=$(pwd)/nginx.conf
 PROXY=$(pwd)/docker-registry.conf
 CERTS=$(pwd)/certs
 killAndRemove ${REV_PROXY}
-docker run -it -p 80:80 \
+docker run -d -p 80:80 \
  -p 443:443 \
  -v ${CERTS}:/etc/nginx/certs:ro \
  -v ${pwd}/docker-registry.htpasswd:/auth/docker-registry.htpasswd \
