@@ -29,11 +29,10 @@ echo ${CURRNETDIR}
 
 cd ./login
 docker build -t nodeauth .
-cd ..
 AUTH="nginx-node-auth"
-
 killAndRemove ${AUTH}
-docker run -d -v ${PASSWORDS}:/src/.htpasswd --name=${AUTH} nodeauth
+docker run -d -v ${PASSWORDS}:/src/.htpasswd -v $(PWD)/node_modules:/src/node_modules --name=${AUTH} nodeauth
+cd ..
 
 
 killAndRemove ${REV_PROXY}
