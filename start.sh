@@ -11,8 +11,8 @@ function ssl(){
 }
 
 function killAndRemove(){
-    docker stop ${1} 2>/dev/null | echo ${1} stopped.
-    docker rm -fv ${1} 2>/dev/null | echo ${1} removed.
+    docker stop ${1} | echo ${1} stopped. From Docker:
+    docker rm -fv ${1} | echo ${1} removed. From Docker:
 }
 #ssl ${REG_ADDRESS2}
 
