@@ -24,6 +24,7 @@ PROXY=$(pwd)/docker-registry.conf
 CERTS=$(pwd)/certs
 PASSWORDS=$(pwd)/.htpasswd
 killAndRemove ${REV_PROXY}
+sleep 2
 docker run -d -p 80:80 \
  -p 443:443 \
  -v ${pwd}:/src \
@@ -35,4 +36,4 @@ docker run -d -p 80:80 \
  --name=${REV_PROXY} \
  nginx
  
-# docker exec -it ${REV_PROXY} /bin/bash
+docker exec -it ${REV_PROXY} /bin/bash
