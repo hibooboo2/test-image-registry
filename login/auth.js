@@ -23,7 +23,7 @@ app.post('/signup',function(req, res){
 
 function signup(user, req, res){
     if (user.password && user.username){
-        shelljs.exec('htpasswd -bB '+file + " " +user.username + " " + user.password)
+        shelljs.exec('htpasswd -bm '+file + " " +user.username + " " + user.password)
         res.send("User:"+req.query['username']+"\nPassword:"+req.query['password']
         + "\n"+ JSON.stringify(req.body));
         console.log("Added user" + user);
