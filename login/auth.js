@@ -1,4 +1,4 @@
-var auth = require('ht-auth'),
+var shelljs = require('shelljs'),
     url = require('url'),
     http = require('http'),
     express = require('express'),
@@ -7,7 +7,7 @@ var auth = require('ht-auth'),
     bodyParser = require('body-parser'),
     multer = require('multer');
 
-auth = auth.create({file: '/src/.htpasswd'});
+file = '/src/.htpasswd';
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -23,19 +23,10 @@ app.post('/signup',function(req, res){
 
 function signup(user, req, res){
     if (user.password && user.username){
-        console.log(user);
-        auth.add(user,function(err){
-            if(!err){
-                res.send("User:"+req.query['username']+"\nPassword:"+req.query['password']
-                + "\n"+ JSON.stringify(req.body));
-                console.log("Added user" + user);
-            }
-            else{
-                res.send("User already exists.");
-                console.log(err)
-                
-            }
-        })
+        shelljs.exec('htpasswd -bB '+file +user.username + " " + user.password)
+        res.send("User:"+req.query['username']+"\nPassword:"+req.query['password']
+        + "\n"+ JSON.stringify(req.body));
+        console.log("Added user" + user);
     }
 }
 
